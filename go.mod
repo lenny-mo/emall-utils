@@ -1,4 +1,4 @@
-module utils
+module github.com/lenny-mo/utils
 
 go 1.20
 
