@@ -1,4 +1,4 @@
-module github.com/lenny-mo/utils
+module github.com/lenny-mo/emall-utils
 
 go 1.20
 
