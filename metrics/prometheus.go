@@ -19,11 +19,11 @@ var (
 		[]string{"service", "version", "os"}, // 添加了三个标签：service, version, os
 	)
 
-	// 支付成功率
-	paymentSuccessRate = prometheus.NewGauge(
+	// 创建一个 Gauge 类型的指标，用于记录后台在捕获用户支付信息的时候开启的 Goroutine 数量
+	paymentGoroutines = prometheus.NewGauge(
 		prometheus.GaugeOpts{
-			Name: "payment_success_rate",
-			Help: "The rate of successful payment processing",
+			Name: "payment_goroutines",
+			Help: "Number of Goroutines spawned during payment processing",
 		},
 	)
 
@@ -62,8 +62,12 @@ func CounterRequestProcess(service, version, os string) {
 	requestsProcessed.WithLabelValues(service, version, os).Inc()
 }
 
-func UpdatePaymentSuccessRate(rate float64) {
-	paymentSuccessRate.Set(rate)
+func PaymentGoroutinesInc() {
+	paymentGoroutines.Inc()
+}
+
+func PaymentGoroutinesDec() {
+	paymentGoroutines.Dec()
 }
 
 func RecordPaymentResponseTime(service, version, os string, duration float64) {
@@ -86,7 +90,7 @@ func RegisterMetrics() {
 	prometheus.MustRegister(requestsProcessed)
 
 	// 注册支付成功率指标
-	prometheus.MustRegister(paymentSuccessRate)
+	prometheus.MustRegister(paymentGoroutines)
 
 	// 注册支付响应时间指标
 	prometheus.MustRegister(paymentResponseTime)
