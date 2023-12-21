@@ -22,7 +22,7 @@ var (
 	// 创建一个 Gauge 类型的指标，用于记录后台在捕获用户支付信息的时候开启的 Goroutine 数量
 	paymentGoroutines = prometheus.NewGauge(
 		prometheus.GaugeOpts{
-			Name: "payment_goroutines",
+			Name: "payment_goroutines_numbers",
 			Help: "Number of Goroutines spawned during payment processing",
 		},
 	)
@@ -40,7 +40,7 @@ var (
 	// 创建一个带标签的 Summary 指标 统计 任务执行时间
 	taskExecutionTime = prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
-			Name:       "cart_idle_time",
+			Name:       "task_execution_time",
 			Help:       "Distribution of idle time for shopping carts",
 			Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.99: 0.001},
 		},
@@ -50,7 +50,7 @@ var (
 	// 创建一个带标签的 Counter 指标
 	cartAndPaymentInteractionCounter = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Name: "interaction_counter",
+			Name: "cart_and_payment_interaction_counter",
 			Help: "Count of interactions between shopping cart and payment module",
 		},
 		[]string{"service", "version", "os"}, // 添加了三个标签：service、version 和 os
