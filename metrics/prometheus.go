@@ -75,7 +75,7 @@ func RecordPaymentResponseTime(service, version, os string, duration float64) {
 	paymentResponseTime.WithLabelValues(service, version, os).Observe(duration)
 }
 
-func RecordCartIdleTime(service, version, os string, duration float64) {
+func TaskExecutionTime(service, version, os string, duration float64) {
 	// 根据标签值记录 summary 数据
 	taskExecutionTime.WithLabelValues(service, version, os).Observe(duration)
 }
