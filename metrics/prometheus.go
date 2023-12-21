@@ -37,8 +37,8 @@ var (
 		[]string{"service", "version", "os"}, // 添加了三个标签：service、version 和 os
 	)
 
-	// 创建一个带标签的 Summary 指标
-	cartIdleTime = prometheus.NewSummaryVec(
+	// 创建一个带标签的 Summary 指标 统计 任务执行时间
+	taskExecutionTime = prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
 			Name:       "cart_idle_time",
 			Help:       "Distribution of idle time for shopping carts",
@@ -77,7 +77,7 @@ func RecordPaymentResponseTime(service, version, os string, duration float64) {
 
 func RecordCartIdleTime(service, version, os string, duration float64) {
 	// 根据标签值记录 summary 数据
-	cartIdleTime.WithLabelValues(service, version, os).Observe(duration)
+	taskExecutionTime.WithLabelValues(service, version, os).Observe(duration)
 }
 
 func Counterinteraction(service, version, os string) {
@@ -96,7 +96,7 @@ func RegisterMetrics() {
 	prometheus.MustRegister(paymentResponseTime)
 
 	// 注册购物车空闲时间指标
-	prometheus.MustRegister(cartIdleTime)
+	prometheus.MustRegister(taskExecutionTime)
 
 	// 注册购物车和支付模块交互次数指标
 	prometheus.MustRegister(cartAndPaymentInteractionCounter)
